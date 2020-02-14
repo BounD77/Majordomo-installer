@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -e "\033[1;33mВерсия скрипта 0.5.4 от 02.10.2019\033[0m"
+echo -e "\033[1;33mВерсия скрипта 0.5. от 02.10.2019\033[0m"
 #функция проверки не занят ли установщик
 label1(){
     #проверка не запущен ли процесс apt
@@ -305,10 +305,10 @@ inst_apache2(){
 	phpif=$(apt-cache search php-common)
 	phpif70=$(apt-cache search php7.0-common)
 	phpif5=$(apt-cache search php5-common)
-	phpif72=$(apt-cache search php7.2-common)
-	if [ "$phpif72" = "" ];
+	phpif73=$(apt-cache search php7.3-common)
+	if [ "$phpif73" = "" ];
 	then
-		// если php не версии 7.2
+		// если php не версии 7.3
 		if [ "$phpif" = "" ];
 		then
 			if [ "$phpif70" = "" ];
@@ -321,7 +321,7 @@ inst_apache2(){
 			sudo apt-get -qq install -y libapache2-mod-php
 		fi
 	else
-		sudo apt-get -qq install -y libapache2-mod-php7.2
+		sudo apt-get -qq install -y libapache2-mod-php7.3
 	fi
 	echo -n -e "\033[1;36mУстанавливаю web сервер Apache... \033[0m"
 	sudo apt-get -qq install -y apache2
@@ -337,9 +337,9 @@ inst_apache2(){
 	sudo a2enmod mpm_prefork
 	
 
-	if [ "$phpif72" = "" ];
+	if [ "$phpif73" = "" ];
 	then
-		// если php не версии 7.2
+		// если php не версии 7.3
 		if [ "$phpif" = "" ];
 		then
 			if [ "$phpif70" = "" ];
@@ -352,7 +352,7 @@ inst_apache2(){
 			sudo a2enmod php
 		fi
 	else
-		sudo a2enmod php7.2
+		sudo a2enmod php7.3
 	fi
 
 
@@ -377,17 +377,18 @@ inst_apache2(){
 		sudo sed -i '/max_file_uploads/s/20/150/' /etc/php/7.0/apache2/php.ini
 		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.0/apache2/php.ini
 	fi
-	if [ -f "/etc/php/7.2/apache2/php.ini" ]; then
-		sudo sed -i '/short_open_tag/s/Off/On/' /etc/php/7.2/apache2/php.ini
-		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.2/apache2/php.ini
-		sudo sed -i '/max_execution_time/s/30/90/' /etc/php/7.2/apache2/php.ini
-		sudo sed -i '/max_input_time/s/60/180/' /etc/php/7.2/apache2/php.ini
-		sudo sed -i '/post_max_size/s/8/200/' /etc/php/7.2/apache2/php.ini
-		sudo sed -i '/upload_max_filesize/s/2/50/' /etc/php/7.2/apache2/php.ini
-		sudo sed -i '/max_file_uploads/s/20/150/' /etc/php/7.2/apache2/php.ini
-		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.2/apache2/php.ini
+	if [ -f "/etc/php/7.3/apache2/php.ini" ]; then
+		sudo sed -i '/short_open_tag/s/Off/On/' /etc/php/7.3/apache2/php.ini
+		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.3/apache2/php.ini
+		sudo sed -i '/max_execution_time/s/30/90/' /etc/php/7.3/apache2/php.ini
+		sudo sed -i '/max_input_time/s/60/180/' /etc/php/7.3/apache2/php.ini
+		sudo sed -i '/post_max_size/s/8/200/' /etc/php/7.3/apache2/php.ini
+		sudo sed -i '/upload_max_filesize/s/2/50/' /etc/php/7.3/apache2/php.ini
+		sudo sed -i '/max_file_uploads/s/20/150/' /etc/php/7.3/apache2/php.ini
+		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.3/apache2/php.ini
 	fi
-       sudo a2enmod php7.2
+       sudo a2enmod php7.3
+	   sudo a2enmod php7.3
        sudo a2enmod php7.1
        sudo a2enmod php7.0
 
@@ -591,10 +592,10 @@ EOF
 		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.0/cli/php.ini
 		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.0/cli/php.ini
 	fi
-	if [ -f "/etc/php/7.2/cli/php.ini" ]; then
-		sudo sed -i '/short_open_tag/s/Off/On/' /etc/php/7.2/cli/php.ini
-		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.2/cli/php.ini
-		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.2/cli/php.ini
+	if [ -f "/etc/php/7.3/cli/php.ini" ]; then
+		sudo sed -i '/short_open_tag/s/Off/On/' /etc/php/7.3/cli/php.ini
+		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.3/cli/php.ini
+		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.3/cli/php.ini
 	fi
 
 # Настраиваем PHP для fpm
@@ -618,15 +619,15 @@ EOF
 		sudo sed -i '/max_file_uploads/s/20/150/' /etc/php/7.0/fpm/php.ini
 		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.0/fpm/php.ini
 	fi
-	if [ -f "/etc/php/7.2/fpm/php.ini" ]; then
-		sudo sed -i '/short_open_tag/s/Off/On/' /etc/php/7.2/fpm/php.ini
-		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.2/fpm/php.ini
-		sudo sed -i '/max_execution_time/s/30/90/' /etc/php/7.2/fpm/php.ini
-		sudo sed -i '/max_input_time/s/60/180/' /etc/php/7.2/fpm/php.ini
-		sudo sed -i '/post_max_size/s/8/200/' /etc/php/7.2/fpm/php.ini
-		sudo sed -i '/upload_max_filesize/s/2/50/' /etc/php/7.2/fpm/php.ini
-		sudo sed -i '/max_file_uploads/s/20/150/' /etc/php/7.2/fpm/php.ini
-		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.2/fpm/php.ini
+	if [ -f "/etc/php/7.3/fpm/php.ini" ]; then
+		sudo sed -i '/short_open_tag/s/Off/On/' /etc/php/7.3/fpm/php.ini
+		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.3/fpm/php.ini
+		sudo sed -i '/max_execution_time/s/30/90/' /etc/php/7.3/fpm/php.ini
+		sudo sed -i '/max_input_time/s/60/180/' /etc/php/7.3/fpm/php.ini
+		sudo sed -i '/post_max_size/s/8/200/' /etc/php/7.3/fpm/php.ini
+		sudo sed -i '/upload_max_filesize/s/2/50/' /etc/php/7.3/fpm/php.ini
+		sudo sed -i '/max_file_uploads/s/20/150/' /etc/php/7.3/fpm/php.ini
+		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.3/fpm/php.ini
 	fi
 
 
@@ -644,11 +645,11 @@ inst_php(){
 	phpif=$(apt-cache search php-common)
 	phpif70=$(apt-cache search php7.0-common)
 	phpif5=$(apt-cache search php5-common)
-	phpif72=$(apt-cache search php7.2-common)
+	phpif73=$(apt-cache search php7.3-common)
 
-	if [ "$phpif72" = "" ];
+	if [ "$phpif73" = "" ];
 	then
-		// если php не версии 7.2
+		// если php не версии 7.3
 		if [ "$phpif" = "" ];
 		then
 					if [ "$phpif70" = "" ];
@@ -739,30 +740,30 @@ inst_php(){
 					sudo apt-get -qq install -y php-json
 				fi
 			else
-				sudo apt-get -qq install -y php7.2-dev
-				sudo apt-get -qq install -y php7.2
-				sudo apt-get -qq install -y php7.2-bz2
-				sudo apt-get -qq install -y php7.2-cli
-				sudo apt-get -qq install -y php7.2-common
-				sudo apt-get -qq install -y php7.2-curl
-				sudo apt-get -qq install -y php7.2-gd
-				sudo apt-get -qq install -y php7.2-json
-				sudo apt-get -qq install -y php7.2-mbstring
-				sudo apt-get -qq install -y php7.2-mysql
-				sudo apt-get -qq install -y php7.2-opcache
-				sudo apt-get -qq install -y php7.2-readline
-				sudo apt-get -qq install -y php7.2-xml
-				sudo apt-get -qq install -y php7.2-mysql
-				sudo apt-get -qq install -y php7.2-imagick
-				sudo apt-get -qq install -y php7.2-imap
-				sudo apt-get -qq install -y php7.2-memcache
-				sudo apt-get -qq install -y php7.2-pspell
-				sudo apt-get -qq install -y php7.2-recode
-				sudo apt-get -qq install -y php7.2-snmp
-				sudo apt-get -qq install -y php7.2-tidy
-				sudo apt-get -qq install -y php7.2-xmlrpc
-				sudo apt-get -qq install -y php7.2-xsl
-				sudo apt-get -qq install -y php7.2-json
+				sudo apt-get -qq install -y php7.3-dev
+				sudo apt-get -qq install -y php7.3
+				sudo apt-get -qq install -y php7.3-bz2
+				sudo apt-get -qq install -y php7.3-cli
+				sudo apt-get -qq install -y php7.3-common
+				sudo apt-get -qq install -y php7.3-curl
+				sudo apt-get -qq install -y php7.3-gd
+				sudo apt-get -qq install -y php7.3-json
+				sudo apt-get -qq install -y php7.3-mbstring
+				sudo apt-get -qq install -y php7.3-mysql
+				sudo apt-get -qq install -y php7.3-opcache
+				sudo apt-get -qq install -y php7.3-readline
+				sudo apt-get -qq install -y php7.3-xml
+				sudo apt-get -qq install -y php7.3-mysql
+				sudo apt-get -qq install -y php7.3-imagick
+				sudo apt-get -qq install -y php7.3-imap
+				sudo apt-get -qq install -y php7.3-memcache
+				sudo apt-get -qq install -y php7.3-pspell
+				sudo apt-get -qq install -y php7.3-recode
+				sudo apt-get -qq install -y php7.3-snmp
+				sudo apt-get -qq install -y php7.3-tidy
+				sudo apt-get -qq install -y php7.3-xmlrpc
+				sudo apt-get -qq install -y php7.3-xsl
+				sudo apt-get -qq install -y php7.3-json
 			fi
 	# Настраиваем PHP
 	# Настраиваем PHP для коммандной строки
@@ -776,10 +777,10 @@ inst_php(){
 		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.0/cli/php.ini
 		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.0/cli/php.ini
 	fi
-	if [ -f "/etc/php/7.2/cli/php.ini" ]; then
-		sudo sed -i '/short_open_tag/s/Off/On/' /etc/php/7.2/cli/php.ini
-		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.2/cli/php.ini
-		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.2/cli/php.ini
+	if [ -f "/etc/php/7.3/cli/php.ini" ]; then
+		sudo sed -i '/short_open_tag/s/Off/On/' /etc/php/7.3/cli/php.ini
+		sudo sed -i '/error_reporting/s/~E_DEPRECATED & ~E_STRICT/~E_NOTICE/' /etc/php/7.3/cli/php.ini
+		sudo sed -i '/log_errors/s/On/Off/' /etc/php/7.3/cli/php.ini
 	fi
 	echo -e "\033[1;32m установлено\033[0m"
 }
@@ -893,6 +894,7 @@ add_repo_mbd(){
 
 	if [ $type_os3 = "Debian" ]; then
 	echo "Debian"
+	# buster - есть в дистрибутиве
     if [ "$type_os4" = "jessie" ]; then
     sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
     sudo add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://mariadb.mirror.nucleus.be/repo/10.3/debian jessie main'
@@ -946,8 +948,8 @@ inst_db(){
 			else
 			echo -e "\033[1;31mdebug4  \033[0m"
 			#пытаемся установить
-			sudo apt-get -qq install -y mariadb-server
-			sudo apt-get -qq install -y mariadb-client
+			sudo apt-get  install -y mariadb-server
+			sudo apt-get  install -y mariadb-client
 			#проверяем установилась ли mariadb-server
 			mdbif3=$(dpkg --get-selections mariadb-server)
 				if [ "$mdbif3" = "" ];
@@ -1411,7 +1413,7 @@ inst_config1(){
 		echo ""
 	fi
 
-
+# на данный момент сайт недоступен
 	rm mdbackup.tgz
 	wget -q http://kusheev.com/wp-content/uploads/mdbackup.tgz
 	tar -xf mdbackup.tgz -C /var/www
@@ -1458,6 +1460,7 @@ inst_md2(){
 	# Обновляем и перезапускаем службы
 	sudo systemctl daemon-reload
 	sudo apache2ctl restart
+	sudo nginx restart
 	sudo service mysql restart
 	# Запускаем основной цикл
 	sudo service majordomo start
